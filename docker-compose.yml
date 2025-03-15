@@ -2,24 +2,28 @@ version: '3.8'
 
 services:
   app:
-    image: 820242916610.dkr.ecr.us-east-1.amazonaws.com/task-node-app:latest
-    container_name: task-node-app
+    build: .
+    container_name: node-app
     ports:
-      - "3000:3000"
-    environment:
-      MONGO_HOST: 10.0.2.209  # External MongoDB Server
-      MONGO_PORT: 27017
-      MONGO_DB_NAME: library
-      MONGO_USER: root
-      MONGO_PASSWORD: admin
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+      - "5000:5000"  # Change this to match your app's port
     depends_on:
-      - redis  # Ensures Redis starts before the app
+      - mongodb
+      - redis
+    environment:
+      MONGO_URI: "mongodb://mongodb:27017/mydatabase"
+      REDIS_HOST: "redis"
+    restart: always
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: always
 
   redis:
     image: redis:latest
     container_name: redis-server
-    restart: always
     ports:
       - "6379:6379"
+    restart: always

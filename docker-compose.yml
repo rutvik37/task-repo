@@ -1,30 +1,11 @@
-version: "3.8"
+version: '3.8'
 
 services:
   app:
     container_name: node-app
-    image: task-node-app:latest
-    build: .
+    image: task-node-app:latest  # Replace with your actual image
     ports:
-      - "5000:5000"  # Exposing port 5000
+      - "5000:5000"
     environment:
       - PORT=5000
-      - MONGO_URL=mongodb://root:admin@mongodb:27017/mongo?authSource=admin
-    depends_on:
-      - mongo
-
-  mongo:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      MONGO_INITDB_DATABASE: mongo
-    volumes:
-      - mongo-data:/data/db
-    ports:
-      - "27017:27017"
-
-volumes:
-  mongo-data:
+      - MONGO_URL=mongodb://root:admin@10.0.2.209:27017/mongo?authSource=admin

@@ -1,21 +1,20 @@
-
-# Use official Node.js image as the base image
+# Use an official Node.js image
 FROM node:18
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+# Set the working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json before installing dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --only=production
 
-# Copy the rest of the application code
+# Copy application source code
 COPY . .
 
-# Expose port 3000 for the application
+# Expose the application port
 EXPOSE 5000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
